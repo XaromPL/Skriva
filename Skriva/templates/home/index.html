@@ -1,0 +1,36 @@
+{% load static compress %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skriva - Home</title>
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% endcompress %}
+</head>
+<body>
+<div class="container">
+<main>
+
+{% include 'includes/header.html' %}
+
+<h1>Hello</h1>
+
+<div class="color-test">
+<p>Color test</p>
+<div class="color1 styl"></div>
+<div class="color2 styl"></div>
+<div class="color3 styl"></div>
+<div class="color4 styl"></div>
+<div class="color5 styl"></div>
+</div>
+
+
+</main>
+
+{% include 'includes/footer.html' %}
+
+</div>
+</body>
+</html>
