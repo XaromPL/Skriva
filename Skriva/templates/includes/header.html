@@ -1,3 +1,33 @@
 <header>
-    <p>Hello everyone</p>
+    <nav class="header-nav">
+        <div class="menu-icon">
+            <i id="header-icon_bars" class="fa-solid fa-bars"></i>
+        </div>
+        <div class="logo">
+            <a href="/">Skriva</a>
+        </div>
+        <div class="user-icon">
+            <i id="header-icon_user" class="fa-solid fa-circle-user"></i>
+        </div>
+    </nav>
+
+    <div id="header_menu_bars" class="header-menu">
+        <a href="/"><i class="fa-solid fa-home"></i> Home</a>
+        <a href="/blog/"><i class="fa-solid fa-blog"></i> Blog</a>
+        <a href="#"><i class="fa-solid fa-pen"></i> Write</a>
+        <a href="#"><i class="fa-solid fa-bookmark"></i> Bookmarks</a>
+        <a href="#"><i class="fa-solid fa-info-circle"></i> About</a>
+    </div>
+
+    <div id="header_menu_user_icon" class="header-menu">
+        {% if user.is_authenticated %}
+            <a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>
+            <a href="#"><i class="fa-solid fa-user"></i> Profile</a>
+            <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+        {% else %}
+            <a href="{% url 'account_login' %}"><i class="fa-solid fa-right-to-bracket"></i> Sign In</a>
+            <a href="{% url 'account_signup' %}"><i class="fa-solid fa-user-plus"></i> Sign Up</a>
+        {% endif %}
+        <a id="dark-mode-toggle" href="#"><i class="fa-solid fa-moon"></i> Dark Mode</a>
+    </div>
 </header>

@@ -68,11 +68,6 @@ ACCOUNT_SIGNUP_URL = '/accounts/signup/'
 ACCOUNT_LOGIN_URL = '/accounts/login/'
 ACCOUNT_LOGOUT_URL = '/accounts/logout/'
 
-# Niestandardowy formularz rejestracji z polem zgody na regulamin
-ACCOUNT_FORMS = {
-    'signup': 'accounts.forms.CustomSignupForm',
-}
-
 ACCOUNT_EMAIL_CHANGES_DISABLED = True
 ACCOUNT_PASSWORD_CHANGES_DISABLED = True
 SOCIALACCOUNT_ENABLED = False
@@ -86,7 +81,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'Skriva.urls'

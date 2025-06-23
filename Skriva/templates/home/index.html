@@ -8,29 +8,21 @@
     {% compress css %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     {% endcompress %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-<div class="container">
-<main>
+    {% include 'includes/header.html' %}
+    
+    <div class="container">
+        <main>
+            <div class="content-section">
+                <h1>Welcome to Skriva</h1>
+            </div>
+        </main>
 
-{% include 'includes/header.html' %}
+        {% include 'includes/footer.html' %}
+    </div>
 
-<h1>Hello</h1>
-
-<div class="color-test">
-<p>Color test</p>
-<div class="color1 styl"></div>
-<div class="color2 styl"></div>
-<div class="color3 styl"></div>
-<div class="color4 styl"></div>
-<div class="color5 styl"></div>
-</div>
-
-
-</main>
-
-{% include 'includes/footer.html' %}
-
-</div>
+<script src="{% static 'js/header_menu.js' %}"></script>
 </body>
 </html>
