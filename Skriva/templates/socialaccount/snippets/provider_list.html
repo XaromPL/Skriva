@@ -1,0 +1,26 @@
+{% load i18n %}
+{% load socialaccount %}
+
+{% get_providers as socialaccount_providers %}
+
+<div class="social-login">
+    <div class="social-login-divider">
+        <span>{% trans "or login with" %}</span>
+    </div>
+    <div class="social-login-buttons">
+        {% for provider in socialaccount_providers %}
+            {% if provider.id == "github" %}                
+                <a href="{% provider_login_url provider.id process='login' action='reauthenticate' %}" class="social-button github">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+            {% endif %}
+            {% if provider.id == "discord" %}
+                <a href="{% provider_login_url provider.id process='login' action='reauthenticate' %}" class="social-button discord">
+                    <i class="fab fa-discord"></i>
+                    <span>Discord</span>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

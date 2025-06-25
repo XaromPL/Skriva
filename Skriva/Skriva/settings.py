@@ -12,17 +12,22 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv()
+
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ccq112xr!y-^0@#^wnc5@h2s%ssj$iuol8y^$1x26ymn+19fv$'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,16 +43,17 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'blog',
+    'django.contrib.staticfiles',    'blog',
     'home',
-    'accounts',
-    'compressor',
-    
+    'accounts.apps.AccountsConfig',
+    'compressor',    
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.discord',
+    'allauth.socialaccount.providers.github',
+    'captcha',
 ]
 
 
@@ -68,15 +74,45 @@ ACCOUNT_SIGNUP_URL = '/accounts/signup/'
 ACCOUNT_LOGIN_URL = '/accounts/login/'
 ACCOUNT_LOGOUT_URL = '/accounts/logout/'
 
-# Niestandardowy formularz rejestracji z polem zgody na regulamin
 ACCOUNT_FORMS = {
     'signup': 'accounts.forms.CustomSignupForm',
+    'login': 'accounts.forms.CustomLoginForm',
 }
 
 ACCOUNT_EMAIL_CHANGES_DISABLED = True
 ACCOUNT_PASSWORD_CHANGES_DISABLED = True
-SOCIALACCOUNT_ENABLED = False
+SOCIALACCOUNT_ENABLED = True
 ACCOUNT_LOGOUT_ON_GET = True
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'APP': {
+            'client_id': os.getenv('GITHUB_CLIENT_ID'),
+            'secret': os.getenv('GITHUB_CLIENT_SECRET'),
+            'key': ''
+        },
+        'SCOPE': [
+            'user',
+            'user:email',
+        ],
+    },
+    'discord': {
+        'APP': {
+            'client_id': os.getenv('DISCORD_CLIENT_ID'),
+            'secret': os.getenv('DISCORD_CLIENT_SECRET'),
+            'key': ''
+        },
+        'SCOPE': [
+            'identify',
+            'email',
+        ],
+    }
+}
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -173,5 +209,5 @@ STATICFILES_FINDERS = [
 COMPRESS_ENABLED = False
 COMPRESS_OFFLINE = False
 
-# Definiowanie STATIC_ROOT - ścieżka do folderu, gdzie collectstatic zbierze pliki statyczne
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     <title>Skriva - Sign Up</title>
     {% load static %}
-    {% load i18n %}
-    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    {% load i18n %}    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static '/css/login_signup.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body>
+<body class="account-page signup-page">
     <main>
         <div class="container">
             <form method="post" class="register" action="{% url 'account_signup' %}">
@@ -70,17 +70,31 @@
                     {% endif %}
                 </div>
 
+                <div class="captcha-container">
+                    <label for="{{ form.captcha.id_for_label }}">{% trans "Verification Code" %}:</label> <br>
+                    {{ form.captcha }}
+                    {% if form.captcha.errors %}
+                        {% for error in form.captcha.errors %}
+                            <p class="error-text">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
                 {% if redirect_field_value %}
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                {% endif %}
-
-                <button type="submit">{% trans "Sign Up" %}</button>
+                {% endif %}                <button type="submit">{% trans "Sign Up" %}</button>
                 <p>{% blocktrans %}Already have an account? <a href="{{ login_url }}">Sign In</a>{% endblocktrans %}</p>
             </form>
+            
+            {% include 'socialaccount/snippets/provider_list.html' %}
+            
         </div>
     </main>
 
     {% include 'includes/footer.html' %}
 
 </body>
+
+<script src="{% static 'js/header_menu.js' %}"></script>
+
 </html>

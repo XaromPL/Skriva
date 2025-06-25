@@ -1,0 +1,70 @@
+{% load static compress %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>Skriva - {{ profile_user.username }}</title>
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    {% endcompress %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    {% include 'includes/header.html' %}
+    
+    <div class="profile-banner"></div>
+    <div class="profile-banner-overlay">
+        <button class="profile-banner-edit-btn">
+            <i class="fa-solid fa-camera"></i> Add cover photo
+        </button>
+    </div>
+
+    <div class="container">
+        <main>
+            <div class="profile-header">
+                <div class="profile-avatar-container">
+                    <div class="profile-avatar">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+                
+                <div class="profile-info-header">
+                    <h1>{{ profile_user.username }}
+                        {% if is_own_profile %}
+                        <span class="profile-badge">This is your profile</span>
+                        {% endif %}
+                    </h1>
+                    <p class="profile-stats">Followers: </p>
+                    <p class="profile-stats">Following: </p>
+                </div>
+            </div>
+            
+            <div class="content-section">
+                <div class="profile-card">
+                    <h2>User Information</h2>
+                    <div class="profile-info">
+                        <p><strong>Username:</strong> {{ profile_user.username }}</p>
+                        <p><strong>Date joined:</strong> {{ profile_user.date_joined|date:"d.m.Y" }}</p>
+                        {% if profile_user.first_name or profile_user.last_name %}
+                        <p><strong>Full name:</strong> {{ profile_user.first_name }} {{ profile_user.last_name }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                {% if is_own_profile %}
+                <div class="profile-options">
+                    <h3>Profile Options</h3>
+                    <p>This section will contain additional options available only to the profile owner.</p>
+                </div>
+                {% endif %}
+            </div>
+        </main>
+
+        {% include 'includes/footer.html' %}
+    </div>
+
+    <script src="{% static 'js/header_menu.js' %}"></script>
+</body>
+</html>
