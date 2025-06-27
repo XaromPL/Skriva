@@ -1,0 +1,44 @@
+{% load static compress %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+            <title>Skriva - Settings</title>
+            {% compress css %}
+            <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+            <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+            {% endcompress %}
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+<body    data-profile-image-id="{{ form.profile_image.id_for_label }}"
+    data-banner-image-id="{{ form.banner_image.id_for_label }}"
+>
+    {% include 'includes/header.html' %}
+
+    <div class="settings-banner" {% if profile.banner_image %}style="background-image: url({{ profile.banner_image.url }}); background-size: cover; background-position: center;"{% endif %}></div>
+    <div class="profile-banner-overlay">
+    </div>
+
+    <div class="container">
+                <main>
+                                <div class="settings-header">
+                                                    <div class="profile-avatar-container">
+                                                                            <div class="profile-avatar">
+                                                                                                        {% if profile.profile_image %}
+                                                                                                                                <img src="{{ profile.profile_image.url }}" alt="{{ user.username }}'s profile picture">
+                                                                                                                                                    {% else %}
+                                                                                                                                                                            <i class="fa-solid fa-user"></i>
+                                                                                                                                                                                                {% endif %}
+                                                                            </div>
+                                                                        </div>
+                                                                    
+                                                                                    <div class="settings-info-header">
+                                                                                                            <h1>Settings</h1>
+                                                                                                                            <p class="settings-subtitle">Manage your profile information</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            
+                                                                                        <div class="content-section">
+                                                                                                            <div class="settings-card">
+                                                                                                                }

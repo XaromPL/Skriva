@@ -61,7 +61,7 @@ header {
 }
 
 .logo a {
-    font-size: 30px;
+    font-size: 40px;
     font-weight: bold;
     color: var(--accent-color);
     text-decoration: none;
@@ -83,7 +83,7 @@ header {
 
 #header-icon_bars,
 #header-icon_user {
-    font-size: 28px;
+    font-size: 42px;
     cursor: pointer;
     color: var(--text-color);
     transition: color 0.3s ease, transform 0.3s ease;

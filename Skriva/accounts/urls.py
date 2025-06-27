@@ -7,4 +7,5 @@ urlpatterns = [
     path('', include('allauth.urls')),
     path('profile', views.profile, name='profile'),
     path('user/<str:username>/', views.user_profile, name='user_profile'),
+    path('settings/', views.settings, name='settings'),
 ]
