@@ -1,17 +1,18 @@
 {% load static compress %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-            <title>Skriva - Settings</title>
-            {% compress css %}
-            <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-            <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-            {% endcompress %}
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    </head>
-<body    data-profile-image-id="{{ form.profile_image.id_for_label }}"
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>Skriva - Settings</title>
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    {% endcompress %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body
+    data-profile-image-id="{{ form.profile_image.id_for_label }}"
     data-banner-image-id="{{ form.banner_image.id_for_label }}"
 >
     {% include 'includes/header.html' %}
@@ -21,24 +22,97 @@
     </div>
 
     <div class="container">
-                <main>
-                                <div class="settings-header">
-                                                    <div class="profile-avatar-container">
-                                                                            <div class="profile-avatar">
-                                                                                                        {% if profile.profile_image %}
-                                                                                                                                <img src="{{ profile.profile_image.url }}" alt="{{ user.username }}'s profile picture">
-                                                                                                                                                    {% else %}
-                                                                                                                                                                            <i class="fa-solid fa-user"></i>
-                                                                                                                                                                                                {% endif %}
-                                                                            </div>
-                                                                        </div>
-                                                                    
-                                                                                    <div class="settings-info-header">
-                                                                                                            <h1>Settings</h1>
-                                                                                                                            <p class="settings-subtitle">Manage your profile information</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            
-                                                                                        <div class="content-section">
-                                                                                                            <div class="settings-card">
-                                                                                                                }
+        <main>
+            <div class="settings-header">
+                <div class="profile-avatar-container">
+                    <div class="profile-avatar">
+                        {% if profile.profile_image %}
+                            <img src="{{ profile.profile_image.url }}" alt="{{ user.username }}'s profile picture">
+                        {% else %}
+                            <i class="fa-solid fa-user"></i>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="settings-info-header">
+                    <h1>Settings</h1>
+                    <p class="settings-subtitle">Manage your profile information</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <div class="settings-card">
+                    <h2>Profile Settings</h2>
+                    
+                    {% if messages %}
+                        <div class="messages">
+                            {% for message in messages %}
+                                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <form method="post" enctype="multipart/form-data" id="profile-edit-form" class="profile-edit-form">
+                        {% csrf_token %}
+
+                        <div class="form-group hidden" id="profile-image-input-group">
+                            <label for="{{ form.profile_image.id_for_label }}">{{ form.profile_image.label }}</label>
+                            {{ form.profile_image }}
+                            {% if form.profile_image.errors %}
+                                <div class="error-text">{{ form.profile_image.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group hidden" id="banner-image-input-group">
+                            <label for="{{ form.banner_image.id_for_label }}">{{ form.banner_image.label }}</label>
+                            {{ form.banner_image }}
+                            {% if form.banner_image.errors %}
+                                <div class="error-text">{{ form.banner_image.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                                <div class="error-text">{{ form.first_name.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                                <div class="error-text">{{ form.last_name.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.birth_date.id_for_label }}">{{ form.birth_date.label }}</label>
+                            {{ form.birth_date }}
+                            {% if form.birth_date.errors %}
+                                <div class="error-text">{{ form.birth_date.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.bio.id_for_label }}">{{ form.bio.label }}</label>
+                            {{ form.bio }}
+                            {% if form.bio.errors %}
+                                <div class="error-text">{{ form.bio.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <button type="submit" class="profile-save-btn">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        {% include 'includes/footer.html' %}
+    </div>
+
+    <script src="{% static 'js/header_menu.js' %}"></script>
+    <script src="{% static 'js/profile_settings.js' %}"></script>
+</body>
+</html>
