@@ -14,11 +14,10 @@
     <div class="editor-container">
         <header class="editor-header">
             <h1 class="editor-title">
-                <i class="fas fa-edit"></i>
                 {% if is_edit %}Edit Post: {{ post.title|truncatechars:50 }}{% else %}Create New Post{% endif %}
             </h1>
             <div class="editor-actions">
-                <a href="/blog/" class="btn btn-outline">
+                <a href="{% url 'my_blog_posts' %}" class="btn btn-outline">
                     <i class="fas fa-arrow-left"></i> Back to Blog
                 </a>
                 {% if is_edit %}
@@ -58,6 +57,7 @@
                             <label for="{{ form.slug.id_for_label }}" class="form-label">URL Slug</label>
                             {{ form.slug }}
                             <div class="form-help">Leave empty to auto-generate from title</div>
+                            <div class="slug-preview" id="slug-preview"></div>
                             {% if form.slug.errors %}
                                 <div class="form-error">{{ form.slug.errors.0 }}</div>
                             {% endif %}
@@ -120,9 +120,6 @@
                                 <i class="fas fa-save"></i> 
                                 {% if is_edit %}Update Post{% else %}Create Post{% endif %}
                             </button>
-                            <a href="{% url 'my_blog_posts' %}" class="btn btn-outline" style="width: 100%;">
-                                <i class="fas fa-times"></i> Cancel
-                            </a>
                         </div>
                     </div>
                     
@@ -177,19 +174,7 @@
     </div>
 
     <script src="{% static 'js/blog-editor.js' %}"></script>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const excerptInput = document.getElementById('post-excerpt');
-            if (excerptInput) {
-                const count = excerptInput.value.length;
-                const counter = document.getElementById('excerpt-count');
-                if (counter) {
-                    counter.textContent = count;
-                }
-            }
-        });
-    </script>
+    <script src="{% static 'js/header_menu.js' %}"></script>
+
 </body>
-<script src="{% static 'js/header_menu.js' %}"></script>
 </html>

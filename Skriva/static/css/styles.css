@@ -2,18 +2,32 @@
     --primary-color: #faeeee;
     --secondary-color: #ece0e0;
     --text-color: #0a0a0a;
+    --text-secondary: #666666;
     --accent-color: #9f249f;
     --second-accent-color: #c818d4;
     --border-radius: 4px;
     --font-size: 16px;
     --font-family: 'Arial', sans-serif;
     --shadow-color: rgba(0, 0, 0, 0.1);
+    --input-background: #ffffff;
+    --border-color: #cccccc;
+    --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --hover-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    --secondary-button: #666666;
+    --secondary-button-hover: #444444;
+    --hover-color: rgba(0, 0, 0, 0.05);
 }
 
 .dark {
     --primary-color: #1c1c1c;
     --secondary-color: #111111;
     --text-color: #ffffff;
+    --text-secondary: #cccccc;
+    --input-background: #2c2c2c;
+    --border-color: #444444;
+    --shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    --hover-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    --hover-color: rgba(255, 255, 255, 0.05);
 }
 
 * {

@@ -11,20 +11,30 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    padding-bottom: 15px;
+    padding-bottom: 5px;
     border-bottom: 2px solid var(--accent-color);
+    text-align: center;
+    height: 60px;
 }
 
 .editor-title {
     font-size: 24px;
     font-weight: 600;
     color: var(--text-color);
-    margin: 0;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 60px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .editor-actions {
     display: flex;
     gap: 10px;
+    align-items: center;
+    height: 100%;
 }
 
 .editor-main {
@@ -128,6 +138,7 @@ select:focus {
     cursor: pointer;
     text-decoration: none;
     transition: all 0.3s ease;
+    margin-right: 10px;
 }
 
 .btn-primary {
@@ -212,6 +223,15 @@ select:focus {
 .cke_chrome {
     border-color: var(--border-color) !important;
     border-radius: var(--border-radius) !important;
+    width: 90% !important;
+    margin: 0 auto !important;
+    box-shadow: var(--shadow) !important;
+}
+
+div.django-ckeditor-widget {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
 }
 
 .cke_top {
@@ -302,9 +322,83 @@ select:focus {
     .cke_reset_all, .cke_reset_all * {
         color: var(--text-color) !important;
     }
-    
-    .cke_reset_all .cke_dialog_ui_labeled_content * {
-        background: var(--input-background) !important;
+
+    .cke_reset_all, .cke_reset_all * {
         color: var(--text-color) !important;
     }
+
+    .cke_reset_all .cke_dialog_ui_labeled_content * {
+        background: var(--input-background) !important;
+        color: var(--accent-color) !important;
+    }
+
+    .cke_editable {
+        color: var(--text-color) !important;
+        background-color: var(--input-background) !important;
+    }
+
+    select {
+        background-color: var(--input-background) !important;
+        color: var(--text-color) !important;
+        border: 1px solid var(--border-color) !important;
+        appearance: auto !important;
+    }
+
+    select option {
+        background-color: var(--input-background) !important;
+        color: var(--text-color) !important;
+    }
+
+    .editor-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        height: 100%;
+    }
+
+    .form-section {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-section:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .cke_wysiwyg_frame {
+        background-color: var(--input-background) !important;
+    }
+
+    .cke_top, .cke_bottom {
+        background-color: var(--primary-color) !important;
+    }
+
+    .cke_button_icon, .cke_button_label {
+        color: var(--text-color) !important;
+    }
+
+    .form-label {
+        color: var(--text-secondary) !important;
+    }
+
+    textarea#post-excerpt {
+        background-color: var(--input-background) !important;
+        color: var(--text-color) !important;
+    }
+}
+
+
+.slug-preview {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 5px;
+    font-style: italic;
+    word-break: break-all;
+}
+
+.slug-preview {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 5px;
+    font-style: italic;
+    word-break: break-all;
 }
