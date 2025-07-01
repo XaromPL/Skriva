@@ -128,7 +128,6 @@
     color: var(--text-color)
 }
 
-/* Profile edit form styles */
 .profile-edit-form {
     margin-top: 20px;
     padding: 15px 0;
@@ -217,7 +216,6 @@
     color: var(--text-color);
 }
 
-/* Avatar Edit Button */
 .profile-avatar-edit {
     position: absolute;
     bottom: 0;
@@ -242,12 +240,10 @@
     padding: 0;
 }
 
-/* Messages */
 .messages {
     margin: 20px 0;
 }
 
-/* Profile Options */
 .profile-options {
     margin-top: 20px;
 }
@@ -276,7 +272,6 @@
     font-size: 18px;
 }
 
-/* Settings Page Specific Styles */
 .settings-banner {
     height: 200px;
     width: 100%;
@@ -334,4 +329,26 @@
     .profile-info-header {
         padding-bottom: 0;
     }
+}
+
+#add_button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--accent-color);
+    color: white;
+    text-align: center;
+    line-height: 60px;
+    font-size: 32px;
+    border-radius: 50%;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transition: background-color 0.3s;
+    z-index: 1000;
+}
+
+#add_button:hover {
+    background-color: var(--second-accent-color);
 }

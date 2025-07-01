@@ -18,10 +18,14 @@ def user_profile(request, username):
     is_own_profile = request.user.username == username
     profile, created = UserProfile.objects.get_or_create(user=user)
     
+    from blog.models import BlogPost
+    blog_posts = BlogPost.objects.filter(author=user).order_by('-created_at')[:3]
+    
     context = {
         'profile_user': user,
         'profile': profile,
         'is_own_profile': is_own_profile,
+        'blog_posts': blog_posts,
     }
     
     return render(request, 'account/user_profile.html', context)

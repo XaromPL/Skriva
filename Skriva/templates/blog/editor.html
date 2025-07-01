@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skriva - {% if post %}Edit Post{% else %}Add Post{% endif %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    {{ form.media }}
+</head>
+<body>
+    <div class="editor-container">
+        <header class="editor-header">
+            <h1 class="editor-title">
+                <i class="fas fa-edit"></i>
+                {% if is_edit %}Edit Post: {{ post.title|truncatechars:50 }}{% else %}Create New Post{% endif %}
+            </h1>
+            <div class="editor-actions">
+                <a href="/blog/" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> Back to Blog
+                </a>
+                {% if is_edit %}
+                <button type="button" id="quick-publish" class="btn btn-success">
+                    <i class="fas fa-rocket"></i> Quick Publish
+                </button>
+                {% endif %}
+            </div>
+        </header>
+
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}error{% else %}{{ message.tags }}{% endif %} alert-dismissible">
+                {{ message }}
+                <button type="button" class="alert-close" onclick="this.parentElement.remove()">×</button>
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" id="post-form" action="">
+            {% csrf_token %}
+            
+            <div class="editor-main">
+                <div class="editor-content">
+                    <div class="form-section">
+                        <h3><i class="fas fa-info-circle"></i> Basic Information</h3>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">Post Title *</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="form-error">{{ form.title.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.slug.id_for_label }}" class="form-label">URL Slug</label>
+                            {{ form.slug }}
+                            <div class="form-help">Leave empty to auto-generate from title</div>
+                            {% if form.slug.errors %}
+                                <div class="form-error">{{ form.slug.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.excerpt.id_for_label }}" class="form-label">Excerpt</label>
+                            {{ form.excerpt }}
+                            <div class="char-counter">
+                                <span id="excerpt-count">0</span>/300 characters
+                            </div>
+                            {% if form.excerpt.errors %}
+                                <div class="form-error">{{ form.excerpt.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3><i class="fas fa-pen-fancy"></i> Post Content</h3>
+                        
+                        <div class="form-group">
+                            {{ form.content }}
+                            {% if form.content.errors %}
+                                <div class="form-error">{{ form.content.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="editor-sidebar">
+                    <div class="form-section">
+                        <h3><i class="fas fa-paper-plane"></i> Publish</h3>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.status.id_for_label }}" class="form-label">Status</label>
+                            {{ form.status }}
+                            <div id="publish-info"></div>
+                            {% if form.status.errors %}
+                                <div class="form-error">{{ form.status.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        {% if is_edit and post %}
+                        <div class="post-meta">
+                            <h4>Post Information</h4>
+                            <p><strong>Created:</strong> {{ post.created_at|date:"M d, Y H:i" }}</p>
+                            {% if post.updated_at != post.created_at %}
+                            <p><strong>Updated:</strong> {{ post.updated_at|date:"M d, Y H:i" }}</p>
+                            {% endif %}
+                            {% if post.published_at %}
+                            <p><strong>Published:</strong> {{ post.published_at|date:"M d, Y H:i" }}</p>
+                            {% endif %}
+                            <p><strong>Views:</strong> {{ post.views_count }}</p>
+                            <p><strong>Status:</strong> {{ post.get_status_display }}</p>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">
+                                <i class="fas fa-save"></i> 
+                                {% if is_edit %}Update Post{% else %}Create Post{% endif %}
+                            </button>
+                            <a href="{% url 'my_blog_posts' %}" class="btn btn-outline" style="width: 100%;">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3><i class="fas fa-tag"></i> Category</h3>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.category.id_for_label }}" class="form-label">Category</label>
+                            {{ form.category }}
+                            {% if form.category.errors %}
+                                <div class="form-error">{{ form.category.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3><i class="fas fa-image"></i> Featured Image</h3>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.featured_image.id_for_label }}" class="form-label">Upload Image</label>
+                            {{ form.featured_image }}
+                            {% if form.featured_image.errors %}
+                                <div class="form-error">{{ form.featured_image.errors.0 }}</div>
+                            {% endif %}
+                            
+                            {% if is_edit and post.featured_image %}
+                            <div style="margin-top: 10px;">
+                                <p class="form-help">Current image:</p>
+                                <img src="{{ post.featured_image.url }}" alt="Current featured image" class="image-preview">
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    {% if is_edit %}
+                    <div class="form-section">
+                        <h3><i class="fas fa-tools"></i> Quick Actions</h3>
+                        
+                        <div class="form-group">
+                            <button type="button" class="btn btn-secondary" style="width: 100%; margin-bottom: 10px;" disabled>
+                                <i class="fas fa-eye"></i> Preview Post
+                            </button>
+                            <a href="{% url 'delete_post' post.slug %}" class="btn btn-outline" style="width: 100%;">
+                                <i class="fas fa-trash"></i> Delete Post
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="{% static 'js/blog-editor.js' %}"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const excerptInput = document.getElementById('post-excerpt');
+            if (excerptInput) {
+                const count = excerptInput.value.length;
+                const counter = document.getElementById('excerpt-count');
+                if (counter) {
+                    counter.textContent = count;
+                }
+            }
+        });
+    </script>
+</body>
+<script src="{% static 'js/header_menu.js' %}"></script>
+</html>

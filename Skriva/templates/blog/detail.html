@@ -1,0 +1,93 @@
+{% load static compress %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skriva - {{ post.title }}</title>
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    {% endcompress %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    {% include 'includes/header.html' %}
+
+    <div class="container blog-container">
+        <article class="blog-post">
+            <header class="blog-post-header">
+                <h1>{{ post.title }}</h1>
+                <div class="blog-post-meta-info">
+                    <span><i class="fas fa-user"></i> {{ post.author.username }}</span>
+                    <span><i class="fas fa-calendar"></i> {{ post.published_at|default:post.created_at|date:"d.m.Y" }}</span>
+                    {% if post.category %}
+                    <span><i class="fas fa-folder"></i> {{ post.category.name }}</span>
+                    {% endif %}
+                    <span><i class="fas fa-eye"></i> {{ post.views_count }} views</span>
+                </div>
+                
+                {% if is_author %}
+                <div class="blog-actions">
+                    <a href="{% url 'edit_blog_post' post.slug %}" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a href="{% url 'delete_post' post.slug %}" class="btn delete">
+                        <i class="fas fa-trash"></i> Delete
+                    </a>
+                </div>
+                {% endif %}
+            </header>
+
+            {% if post.featured_image %}
+            <div class="blog-post-featured-image">
+                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+            </div>
+            {% endif %}
+
+            {% if post.excerpt %}
+            <div class="blog-post-excerpt">
+                <p><em>{{ post.excerpt }}</em></p>
+            </div>
+            {% endif %}
+
+            <div class="blog-post-body">
+                {{ post.content|safe }}
+            </div>
+        </article>
+        
+        <div class="blog-post-footer">
+            <div class="author-info">
+                <h3>About the Author</h3>
+                <div class="author-profile">
+                    <a href="{% url 'user_profile' post.author.username %}" class="author-avatar">
+                        {% if post.author.profile.profile_image %}
+                        <img src="{{ post.author.profile.profile_image.url }}" alt="{{ post.author.username }}">
+                        {% else %}
+                        <div class="author-no-image">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        {% endif %}
+                    </a>
+                    <div class="author-details">
+                        <h4>
+                            <a href="{% url 'user_profile' post.author.username %}">{{ post.author.username }}</a>
+                        </h4>
+                        {% if post.author.profile.bio %}
+                        <p>{{ post.author.profile.bio|truncatechars:150 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="blog-navigation">
+                <a href="{% url 'user_blog_posts' post.author.username %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> More posts by {{ post.author.username }}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/header_menu.js' %}"></script>
+</body>
+</html>

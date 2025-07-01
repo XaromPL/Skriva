@@ -8,6 +8,7 @@
     {% compress css %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     {% endcompress %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -64,6 +65,65 @@
                     </div>
                 </div>
                 
+                <div class="profile-card">
+                    <div class="card-header">
+                        <h2>Blog Posts</h2>
+                    </div>
+                    
+                    <div class="blog-post-list">
+                        {% for post in blog_posts %}
+                        <div class="blog-post-card">
+                            {% if post.featured_image %}
+                            <div class="blog-post-image">
+                                <a href="{% url 'blog_post_detail' post.slug %}">
+                                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                                </a>
+                            </div>
+                            {% endif %}
+                            <div class="blog-post-content">
+                                <h3 class="blog-post-title">
+                                    <a href="{% url 'blog_post_detail' post.slug %}">{{ post.title }}</a>
+                                </h3>
+                                <p class="blog-post-excerpt">
+                                    {{ post.excerpt|default:post.content|striptags|truncatechars:100 }}
+                                </p>
+                                <div class="blog-post-meta">
+                                    <span><i class="fas fa-calendar"></i> {{ post.published_at|default:post.created_at|date:"d.m.Y" }}</span>
+                                    <span><i class="fas fa-eye"></i> {{ post.views_count }}</span>
+                                    {% if is_own_profile %}
+                                    <a href="{% url 'edit_blog_post' post.slug %}"><i class="fas fa-edit"></i> Edit</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="no-posts">
+                            <p>No blog posts yet.</p>
+                            {% if is_own_profile %}
+                            <p>Ready to start writing? Click the "New Post" button above!</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    {% if blog_posts %}
+                    <div class="view-all-link">
+                        <a href="{% url 'user_blog_posts' profile_user.username %}">View all posts</a>
+                    </div>
+                    {% endif %}
+                </div>
+            {% if is_own_profile %}
+                <a href="{% url 'blog_editor' %}" id="add_button">+</a>
+            {% endif %}
+            </div>
+
+        </main>
+
+        {% include 'includes/footer.html' %}
+    </div>
+    
+
+    
     <script src="{% static 'js/header_menu.js' %}"></script>
 </body>
 </html>
