@@ -1,8 +1,8 @@
 class BlogEditor {
     constructor() {
         this.form = document.getElementById('post-form');
-        this.titleInput = document.getElementById('id_title');
-        this.slugInput = document.getElementById('id_slug');
+        this.titleInput = document.getElementById('post-title');
+        this.slugInput = document.getElementById('post-slug');
         this.excerptInput = document.getElementById('post-excerpt');
         this.statusSelect = document.getElementById('post-status');
         this.hasChanges = false;
@@ -14,20 +14,25 @@ class BlogEditor {
         this.updateCharCounter();
         this.setupAutoSave();
         this.updateSlugPreview();
+        this.hideSlugPreview();
     }
 
     setupEventListeners() {
-        if (this.titleInput && this.slugInput) {
-            this.titleInput.addEventListener('input', this.debounce(() => {
-                if (!this.slugInput.value) {
+        if (this.titleInput) {
+            this.titleInput.addEventListener('input', () => {
+                this.generateSlug();
+                this.updateSlugPreview();
+            });
+            this.titleInput.addEventListener('blur', () => {
+                if (this.titleInput.value) {
                     this.generateSlug();
                 }
-                this.updateSlugPreview();
-            }, 500));
+            });
         }
 
         if (this.slugInput) {
             this.slugInput.addEventListener('input', () => this.updateSlugPreview());
+            this.slugInput.addEventListener('blur', () => this.updateSlugPreview());
         }
 
         if (this.excerptInput) {
@@ -55,42 +60,79 @@ class BlogEditor {
     }
 
     generateSlug() {
-        if (!this.titleInput.value) return;
+        if (!this.titleInput || !this.titleInput.value) return;
+
         const title = this.titleInput.value;
+
+        const tempSlug = title
+            .toLowerCase()
+            .replace(/[^\w\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-')
+            .trim();
+
+        const slugPreview = document.getElementById('slug-preview');
+        if (slugPreview) {
+            slugPreview.textContent = `/blog/${tempSlug}/`;
+        }
+
+        if (this.slugInput) {
+            this.slugInput.value = tempSlug;
+        }
+
         fetch(`/blog/ajax/generate-slug/?title=${encodeURIComponent(title)}`)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error(`Network response was not ok: ${response.status}`);
+                return response.json();
+            })
             .then(data => {
                 if (data.slug && this.slugInput) {
                     this.slugInput.value = data.slug;
                     this.updateSlugPreview();
                 }
-            });
+            })
+            .catch(() => {});
     }
 
     updateSlugPreview() {
         const slugPreview = document.getElementById('slug-preview');
-        if (this.slugInput && slugPreview) {
-            if (this.slugInput.value) {
-                slugPreview.textContent = `URL twojego wpisu: /blog/${this.slugInput.value}/`;
-            } else if (this.titleInput && this.titleInput.value) {
-                const slug = this.titleInput.value
-                    .toLowerCase()
-                    .replace(/[^\w\s-]/g, '')
-                    .replace(/\s+/g, '-')
-                    .replace(/-+/g, '-')
-                    .trim();
-                slugPreview.textContent = `URL twojego wpisu: /blog/${slug}/`;
-            } else {
-                slugPreview.textContent = '';
+        if (!slugPreview) return;
+
+        slugPreview.style.display = 'block';
+
+        if (this.slugInput && this.slugInput.value) {
+            slugPreview.textContent = `/blog/${this.slugInput.value}/`;
+            slugPreview.classList.add('active');
+        } else if (this.titleInput && this.titleInput.value) {
+            const slug = this.titleInput.value
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .trim();
+            slugPreview.textContent = `/blog/${slug}/`;
+            slugPreview.classList.add('active');
+            if (this.slugInput) {
+                this.slugInput.value = slug;
             }
+        } else {
+            slugPreview.textContent = '';
+            slugPreview.style.display = 'none';
+            slugPreview.classList.remove('active');
+        }
+    }
+
+    hideSlugPreview() {
+        const slugPreview = document.getElementById('slug-preview');
+        if (slugPreview) {
+            slugPreview.style.display = 'none';
         }
     }
 
     updateCharCounter() {
         const counter = document.getElementById('excerpt-count');
         if (this.excerptInput && counter) {
-            const count = this.excerptInput.value.length;
-            counter.textContent = count;
+            counter.textContent = this.excerptInput.value.length;
         }
     }
 
@@ -114,9 +156,7 @@ class BlogEditor {
             }
         }).then(response => response.json())
           .then(data => {
-              if (data.success) {
-                  this.hasChanges = false;
-              }
+              if (data.success) this.hasChanges = false;
           });
     }
 
@@ -131,21 +171,18 @@ class BlogEditor {
     handleStatusChange() {
         const status = this.statusSelect.value;
         const publishInfo = document.getElementById('publish-info');
-        if (publishInfo) {
-            if (status === 'published') {
-                publishInfo.innerHTML = '<small class="text-info">This post will be published</small>';
-            } else if (status === 'draft') {
-                publishInfo.innerHTML = '<small class="text-muted">Saved as draft</small>';
-            } else if (status === 'archived') {
-                publishInfo.innerHTML = '<small class="text-warning">Archived post</small>';
-            }
+        if (!publishInfo) return;
+        if (status === 'published') {
+            publishInfo.innerHTML = '<small class="text-info">This post will be published</small>';
+        } else if (status === 'draft') {
+            publishInfo.innerHTML = '<small class="text-muted">Saved as draft</small>';
+        } else if (status === 'archived') {
+            publishInfo.innerHTML = '<small class="text-warning">Archived post</small>';
         }
     }
 
     savePost() {
-        if (this.form) {
-            this.form.submit();
-        }
+        if (this.form) this.form.submit();
     }
 
     isFormValid() {
@@ -156,10 +193,17 @@ class BlogEditor {
 
     getCKEditorContent() {
         try {
-            if (window.CKEDITOR && CKEDITOR.instances['id_content']) {
-                return CKEDITOR.instances['id_content'].getData();
+            const editorIds = ['id_content', 'post-content', 'content'];
+            for (const id of editorIds) {
+                if (window.CKEDITOR && CKEDITOR.instances[id]) {
+                    return CKEDITOR.instances[id].getData();
+                }
             }
-        } catch (_) {}
+            if (window.CKEDITOR && Object.keys(CKEDITOR.instances).length > 0) {
+                const firstId = Object.keys(CKEDITOR.instances)[0];
+                return CKEDITOR.instances[firstId].getData();
+            }
+        } catch {}
         return '';
     }
 
@@ -167,27 +211,20 @@ class BlogEditor {
         const token = document.querySelector('[name=csrfmiddlewaretoken]');
         return token ? token.value : '';
     }
-
-    debounce(func, wait) {
-        let timeout;
-        return (...args) => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func(...args), wait);
-        };
-    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     window.blogEditor = new BlogEditor();
+    window.blogEditor.hideSlugPreview(); // Ukryj pole slug-preview
 });
 
 if (window.CKEDITOR) {
-    CKEDITOR.on('instanceReady', function(evt) {
-        const editor = evt.editor;
-        editor.on('change', function() {
-            if (window.blogEditor) {
-                window.blogEditor.hasChanges = true;
-            }
+    CKEDITOR.on('instanceReady', evt => {
+        evt.editor.on('change', () => {
+            if (window.blogEditor) window.blogEditor.hasChanges = true;
         });
+        if (window.blogEditor) {
+            window.blogEditor.updateSlugPreview();
+        }
     });
 }

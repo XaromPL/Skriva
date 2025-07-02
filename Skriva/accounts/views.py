@@ -35,6 +35,22 @@ def settings(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
     
     if request.method == 'POST':
+        if 'remove_profile_image' in request.POST and profile.profile_image:
+            old_image = profile.profile_image
+            profile.profile_image = None
+            profile.save()
+            if old_image:
+                old_image.delete(save=False)
+            messages.success(request, 'Profile picture has been removed.')
+        
+        if 'remove_banner_image' in request.POST and profile.banner_image:
+            old_banner = profile.banner_image
+            profile.banner_image = None
+            profile.save()
+            if old_banner:
+                old_banner.delete(save=False)
+            messages.success(request, 'Banner has been removed.')
+            
         form = UserProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()

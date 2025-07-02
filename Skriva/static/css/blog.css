@@ -393,12 +393,10 @@ div.django-ckeditor-widget {
     margin-top: 5px;
     font-style: italic;
     word-break: break-all;
-}
-
-.slug-preview {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-top: 5px;
-    font-style: italic;
-    word-break: break-all;
+    transition: all 0.3s ease;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: rgba(0,0,0,0.03);
+    display: inline-block;
+    max-width: 100%;
 }

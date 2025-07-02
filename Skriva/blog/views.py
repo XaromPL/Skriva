@@ -46,8 +46,7 @@ def delete_post(request, slug):
 
     post.delete()
     return redirect('/')
-        
-    return render(request, 'blog/confirm_delete.html', {'post': post})
+
 
 def blog_post_detail(request, slug):
 

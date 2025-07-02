@@ -91,6 +91,14 @@ class UserProfileForm(forms.ModelForm):
         profile = super().save(commit=False)
         profile.user.first_name = self.cleaned_data['first_name']
         profile.user.last_name = self.cleaned_data['last_name']
+        
+        # Sprawdź, czy w danych z żądania są pola remove_profile_image lub remove_banner_image
+        if hasattr(self, 'data') and 'remove_profile_image' in self.data:
+            profile.profile_image = None
+        
+        if hasattr(self, 'data') and 'remove_banner_image' in self.data:
+            profile.banner_image = None
+            
         if commit:
             profile.user.save()
             profile.save()
