@@ -46,7 +46,6 @@
                 <div class="profile-card">
                     <h2>User Information</h2>
                     <div class="profile-info">
-                        <p><strong>Username:</strong> {{ profile_user.username }}</p>
                         <p><strong>Joined:</strong> {{ profile_user.date_joined|date:"d.m.Y" }}</p>
 
                         {% if profile_user.first_name or profile_user.last_name %}
