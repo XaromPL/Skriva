@@ -40,11 +40,11 @@
                     <div class="post-info">
                         <span class="post-date">
                             <i class="fas fa-calendar"></i>
-                            Published: {{ post.published_at|default:post.created_at|date:"d.m.Y" }}
+                            {{ post.published_at|default:post.created_at|date:"d.m.Y" }}
                         </span>
                         <span class="post-views">
                             <i class="fas fa-eye"></i>
-                            Views: {{ post.views_count }}
+                            {{ post.views_count }}
                         </span>
                         <span class="post-likes">
                             {% if user.is_authenticated %}
@@ -83,7 +83,7 @@
                     {% if post.author.profile.bio %}
                     <p class="author-bio">{{ post.author.profile.bio|truncatechars:100 }}</p>
                     {% else %}
-                    <p class="author-bio">This author has not added a bio yet.</p>
+                    <p class="author-bio">Not bio yet.</p>
                     {% endif %}
                 </div>
             </div>
@@ -91,7 +91,7 @@
         
         <div class="blog-navigation">
             <a href="{% url 'user_blog_posts' post.author.username %}" class="blog-btn btn-more-posts">
-                <i class="fas fa-arrow-left"></i> Back to author posts
+                <i class="fas fa-arrow-left"></i> Back to author's posts
             </a>
         </div>
     </div>
@@ -125,18 +125,18 @@
                         if (likesCount) {
                             likesCount.textContent = data.likes_count;
                         }
-
+    
                         if (data.liked) {
                             this.classList.add('liked');
                         } else {
                             this.classList.remove('liked');
                         }
                     } else {
-                        console.error('Błąd podczas polubienia:', data.error);
+                        console.error('Error while liking the post:', data.error);
                     }
                 })
                 .catch(error => {
-                    console.error('Błąd:', error);
+                    console.error('Request error:', error);
                 });
             });
         }
