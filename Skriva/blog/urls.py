@@ -6,6 +6,7 @@ urlpatterns = [
     path('editor/<slug:slug>/', views.blog_editor, name='edit_blog_post'),
     path('post/<slug:slug>/', views.blog_post_detail, name='blog_post_detail'),
     path('post/<slug:slug>/delete/', views.delete_post, name='delete_post'),
+    path('post/<slug:slug>/like/', views.toggle_like, name='toggle_like'),
     path('my-posts/', views.user_blog_posts, name='my_blog_posts'),
     path('user/<str:username>/posts/', views.user_blog_posts, name='user_blog_posts'),
 ]

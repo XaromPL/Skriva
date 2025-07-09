@@ -215,7 +215,7 @@ class BlogEditor {
 
 document.addEventListener('DOMContentLoaded', () => {
     window.blogEditor = new BlogEditor();
-    window.blogEditor.hideSlugPreview(); // Ukryj pole slug-preview
+    window.blogEditor.hideSlugPreview();
 });
 
 if (window.CKEDITOR) {

@@ -62,3 +62,38 @@ class BlogPost(models.Model):
     @property
     def is_published(self):
         return self.status == 'published'
+    
+    def is_liked_by_user(self, user):
+        if not user.is_authenticated:
+            return False
+        return self.user_likes.filter(user=user).exists()
+    
+    def toggle_like(self, user):
+        if not user.is_authenticated:
+            return False
+        
+        like, created = BlogLike.objects.get_or_create(user=user, post=self)
+        if not created:
+            like.delete()
+            self.likes_count = max(0, self.likes_count - 1)
+            liked = False
+        else:
+            self.likes_count += 1
+            liked = True
+        
+        self.save(update_fields=['likes_count'])
+        return liked
+
+
+class BlogLike(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name='user_likes')
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('user', 'post')
+        verbose_name = 'Blog Like'
+        verbose_name_plural = 'Blog Likes'
+    
+    def __str__(self):
+        return f'{self.user.username} likes {self.post.title}'

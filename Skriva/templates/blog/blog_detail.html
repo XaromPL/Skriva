@@ -1,0 +1,147 @@
+{% load static compress %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skriva - {{ post.title }}</title>
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/blog_detail.css' %}">
+    {% endcompress %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    {% if user.is_authenticated %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    {% endif %}
+</head>
+<body>
+    {% include 'includes/header.html' %}
+
+    <div class="container blog-detail-container">
+        <article class="blog-post">
+            <div class="blog-header">
+                {% if post.category %}
+                <a href="{{ post.category.get_absolute_url }}" class="blog-category">
+                    {{ post.category.name }}
+                </a>
+                {% endif %}
+
+                <div class="blog-header-content">
+                    <h1 class="blog-title">{{ post.title }}</h1>
+                    {% if post.excerpt %}
+                    <div class="blog-excerpt">
+                        <p>{{ post.excerpt }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="blog-meta">
+                    <div class="post-info">
+                        <span class="post-date">
+                            <i class="fas fa-calendar"></i>
+                            Published: {{ post.published_at|default:post.created_at|date:"d.m.Y" }}
+                        </span>
+                        <span class="post-views">
+                            <i class="fas fa-eye"></i>
+                            Views: {{ post.views_count }}
+                        </span>
+                        <span class="post-likes">
+                            {% if user.is_authenticated %}
+                            <button id="like-button" class="like-btn {% if is_liked %}liked{% endif %}" data-post-slug="{{ post.slug }}">
+                                <i class="fas fa-heart"></i>
+                                <span id="likes-count">{{ post.likes_count }}</span>
+                            </button>
+                            {% else %}
+                            <span class="post-likes-display">
+                                <i class="fas fa-heart"></i>
+                                {{ post.likes_count }}
+                            </span>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+                </div>
+            <div class="blog-content">
+                {{ post.content|safe }}
+            </div>
+            
+            <div class="blog-author">
+                <div class="author-avatar">
+                    {% if post.author.profile.profile_image %}
+                    <img src="{{ post.author.profile.profile_image.url }}" alt="{{ post.author.username }}">
+                    {% else %}
+                    <div class="author-no-image">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="author-info">
+                    <h4 class="author-name">
+                        <a href="{% url 'user_profile' post.author.username %}">{{ post.author.username }}</a>
+                    </h4>
+                    {% if post.author.profile.bio %}
+                    <p class="author-bio">{{ post.author.profile.bio|truncatechars:100 }}</p>
+                    {% else %}
+                    <p class="author-bio">This author has not added a bio yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+        
+        <div class="blog-navigation">
+            <a href="{% url 'user_blog_posts' post.author.username %}" class="blog-btn btn-more-posts">
+                <i class="fas fa-arrow-left"></i> Back to author posts
+            </a>
+        </div>
+    </div>
+
+    {% include 'includes/footer.html' %}
+    <script src="{% static 'js/header_menu.js' %}"></script>
+    
+    {% if user.is_authenticated %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const likeButton = document.getElementById('like-button');
+        const likesCount = document.getElementById('likes-count');
+        
+        if (likeButton) {
+            likeButton.addEventListener('click', function() {
+                const postSlug = this.dataset.postSlug;
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+                                 document.querySelector('meta[name="csrf-token"]')?.content;
+                
+                fetch(`/blog/post/${postSlug}/like/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken || ''
+                    },
+                    credentials: 'same-origin'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (likesCount) {
+                            likesCount.textContent = data.likes_count;
+                        }
+
+                        if (data.liked) {
+                            this.classList.add('liked');
+                        } else {
+                            this.classList.remove('liked');
+                        }
+                    } else {
+                        console.error('Błąd podczas polubienia:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Błąd:', error);
+                });
+            });
+        }
+    });
+    </script>
+    {% endif %}
+</body>
+</html>

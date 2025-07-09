@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from django.utils import timezone
 from .models import BlogPost, BlogCategory
 from .forms import BlogPostForm
@@ -57,7 +57,8 @@ def blog_post_detail(request, slug):
     
     context = {
         'post': post,
-        'is_author': request.user == post.author if request.user.is_authenticated else False
+        'is_author': request.user == post.author if request.user.is_authenticated else False,
+        'is_liked': post.is_liked_by_user(request.user) if request.user.is_authenticated else False
     }
     return render(request, 'blog/blog_detail.html', context)
 
@@ -77,3 +78,18 @@ def user_blog_posts(request, username=None):
         'is_author': request.user == user
     }
     return render(request, 'blog/user_posts.html', context)
+
+
+@login_required
+def toggle_like(request, slug):
+    if request.method == 'POST':
+        post = get_object_or_404(BlogPost, slug=slug)
+        liked = post.toggle_like(request.user)
+        
+        return JsonResponse({
+            'success': True,
+            'liked': liked,
+            'likes_count': post.likes_count
+        })
+    
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
