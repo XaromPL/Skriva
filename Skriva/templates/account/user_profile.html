@@ -61,7 +61,7 @@
 
                         {% if profile.bio %}
                         <div class="profile-bio">
-                            <h3>About me</h3>
+                            <h3>About</h3>
                             <p>{{ profile.bio|linebreaks }}</p>
                         </div>
                         {% endif %}
@@ -103,7 +103,7 @@
                         <div class="no-posts">
                             <p>No blog posts yet.</p>
                             {% if is_own_profile %}
-                            <p>Ready to start writing? Click the "New Post" button above!</p>
+                            <p>Ready to start writing? Click the "+" button!</p>
                             {% endif %}
                         </div>
                         {% endfor %}
@@ -126,7 +126,8 @@
     </div>
     
 
-    
+    {% compress js %}
     <script src="{% static 'js/header_menu.js' %}"></script>
+    {% endcompress %}
 </body>
 </html>
