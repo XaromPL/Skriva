@@ -1,0 +1,128 @@
+{% load static compress %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skriva - {{ page_title }}</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/favicon-16x16.png' %}">
+    <link rel="shortcut icon" href="{% static 'assets/favicon.ico' %}">
+    
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/blog_preview.css' %}">
+    {% endcompress %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    {% include 'includes/header.html' %}
+
+    <div class="container">
+        <main>
+            <div class="page-header">
+                <h1>{{ page_title }}</h1>
+                {% if page_subtitle %}
+                <p class="page-subtitle">{{ page_subtitle }}</p>
+                {% endif %}
+            </div>
+
+            <div class="content-section">
+                {% if authors %}
+                <div class="authors-grid">
+                    {% for author in authors %}
+                    <div class="author-card">
+                        <div class="author-avatar">
+                            {% if author.profile.profile_image %}
+                            <img src="{{ author.profile.profile_image.url }}" alt="{{ author.username }}">
+                            {% else %}
+                            <div class="author-no-image">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="author-info">
+                            <h3 class="author-name">
+                                <a href="{% url 'user_profile' author.username %}">{{ author.username }}</a>
+                            </h3>
+                            
+                            {% if author.first_name or author.last_name %}
+                            <p class="author-full-name">{{ author.first_name }} {{ author.last_name }}</p>
+                            {% endif %}
+                            
+                            {% if author.profile.bio %}
+                            <p class="author-bio">{{ author.profile.bio|truncatechars:100 }}</p>
+                            {% else %}
+                            <p class="author-bio">This author hasn't added a bio yet.</p>
+                            {% endif %}
+                            
+                            <div class="author-stats">
+                                <span class="stat">
+                                    <i class="fas fa-edit"></i>
+                                    {{ author.posts_count }} post{{ author.posts_count|pluralize }}
+                                </span>
+                                <span class="stat">
+                                    <i class="fas fa-calendar"></i>
+                                    Joined {{ author.date_joined|date:"M Y" }}
+                                </span>
+                            </div>
+                            
+                            <div class="author-actions">
+                                <a href="{% url 'user_profile' author.username %}" class="btn btn-primary">
+                                    <i class="fas fa-user"></i> View Profile
+                                </a>
+                                <a href="{% url 'user_blog_posts' author.username %}" class="btn btn-secondary">
+                                    <i class="fas fa-book"></i> View Posts
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% if authors.has_other_pages %}
+                <div class="pagination-container">
+                    <div class="pagination">
+                        {% if authors.has_previous %}
+                            <a href="?page=1" class="page-link first">&laquo; First</a>
+                            <a href="?page={{ authors.previous_page_number }}" class="page-link prev">&lsaquo; Previous</a>
+                        {% endif %}
+                        
+                        <span class="page-info">
+                            Page {{ authors.number }} of {{ authors.paginator.num_pages }}
+                        </span>
+                        
+                        {% if authors.has_next %}
+                            <a href="?page={{ authors.next_page_number }}" class="page-link next">Next &rsaquo;</a>
+                            <a href="?page={{ authors.paginator.num_pages }}" class="page-link last">Last &raquo;</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% else %}
+                <div class="no-posts">
+                    <div class="no-posts-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>No Authors Found</h3>
+                    <p>No authors have published posts yet. Be the first to start writing!</p>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'blog_editor' %}" class="btn btn-primary">Write Your First Post</a>
+                    {% else %}
+                    <a href="{% url 'account_signup' %}" class="btn btn-primary">Join Skriva</a>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </main>
+
+        {% include 'includes/footer.html' %}
+    </div>
+
+    <script src="{% static 'js/header_menu.js' %}"></script>
+</body>
+</html>

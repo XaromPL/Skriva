@@ -4,25 +4,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skriva - Home</title>
+    <title>Skriva - Modern Blogging Platform | Write, Publish, Connect</title>
+    <meta name="description" content="Skriva is a modern blogging platform where writers create, publish, and share their stories. Join our community of writers and start your blogging journey today.">
+    <meta name="keywords" content="blogging platform, writing, publish, blog, content creation, writers, stories, articles">
+    <meta name="author" content="Skriva">
+    <meta name="robots" content="index, follow">  
+    <meta property="og:title" content="Skriva - Modern Blogging Platform">
+    <meta property="og:description" content="The modern blogging platform where your stories come to life. Write, publish, and connect with readers around the world.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://skriva.com">
+    <meta property="og:site_name" content="Skriva">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Skriva - Modern Blogging Platform">
+    <meta name="twitter:description" content="The modern blogging platform where your stories come to life. Write, publish, and connect with readers around the world.">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'assets/site.webmanifest' %}">
+    <link rel="shortcut icon" href="{% static 'assets/favicon.ico' %}">
+    
     {% compress css %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
     {% endcompress %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     {% include 'includes/header.html' %}
     
-    <div class="container">
-        <main>
-            <div class="content-section">
-                <h1>Welcome to Skriva</h1>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Skriva</h1>
+            <p>The modern blogging platform where your stories come to life. Write, publish, and connect with readers around the world.</p>
+            <div class="cta-buttons">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'blog_editor' %}" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Start Writing
+                    </a>
+                    <a href="{% url 'my_blog_posts' %}" class="btn btn-secondary">
+                        <i class="fas fa-book-open"></i> My Posts
+                    </a>
+                {% else %}
+                    <a href="{% url 'account_signup' %}" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Start Writing
+                    </a>
+                    <a href="{% url 'blog_list' %}" class="btn btn-secondary">
+                        <i class="fas fa-book-open"></i> Explore Blogs
+                    </a>
+                {% endif %}
             </div>
-        </main>
+        </div>
+    </section>
+    
+    <section id="features" class="features">
+        <div class="section-header">
+            <h2>Why Choose Skriva?</h2>
+            <p>Everything you need to create, manage, and grow your blog</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <h3>Rich Text Editor</h3>
+                <p>Write with our powerful editor that supports formatting, images, and everything you need to create beautiful content.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Mobile Responsive</h3>
+                <p>Your blog looks perfect on all devices. Write on desktop, tablet, or mobile - your content adapts beautifully.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Reader Engagement</h3>
+                <p>Connect with your audience through likes, views tracking, and an intuitive reader experience.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <h3>Content Organization</h3>
+                <p>Organize your posts with categories, manage drafts, and keep your content library structured.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>SEO Optimized</h3>
+                <p>Built-in SEO features help your content get discovered. Clean URLs, meta descriptions, and fast loading.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-save"></i>
+                </div>
+                <h3>Auto-Save</h3>
+                <p>Never lose your work with automatic saving. Focus on writing while we handle the rest.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>0+</h3>
+                <p>Active Writers</p>
+            </div>
+            <div class="stat-item">
+                <h3>24/7</h3>
+                <p>Platform Availability</p>
+            </div>
+            <div class="stat-item">
+                <h3>∞</h3>
+                <p>Creative Possibilities</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Ready to Start Your Journey?</h2>
+            <p>Join thousands of writers who have chosen Skriva to share their stories with the world.</p>
+            {% if user.is_authenticated %}
+                <a href="{% url 'blog_editor' %}" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i> Create Your First Post
+                </a>
+            {% else %}
+                <a href="{% url 'account_signup' %}" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i> Get Started Now
+                </a>
+            {% endif %}
+        </div>
+    </section>
+    
+    {% include 'includes/footer.html' %}
 
-        {% include 'includes/footer.html' %}
-    </div>
-
-<script src="{% static 'js/header_menu.js' %}"></script>
+    <script src="{% static 'js/header_menu.js' %}"></script>
 </body>
 </html>

@@ -13,10 +13,12 @@
 
     <div id="header_menu_bars" class="header-menu">
         <a href="/"><i class="fa-solid fa-home"></i> Home</a>
-        <a href="/blog/"><i class="fa-solid fa-blog"></i> Blog</a>
-        <a href="#"><i class="fa-solid fa-pen"></i> Write</a>
-        <a href="#"><i class="fa-solid fa-bookmark"></i> Bookmarks</a>
-        <a href="#"><i class="fa-solid fa-info-circle"></i> About</a>
+        <a href="{% url 'blog_list' %}"><i class="fa-solid fa-blog"></i> All Blogs</a>
+        <a href="{% url 'authors_list' %}"><i class="fa-solid fa-users"></i> Authors</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'blog_editor' %}"><i class="fa-solid fa-pen"></i> Write</a>
+        {% endif %}
+        <a href="{% url 'about' %}"><i class="fa-solid fa-info-circle"></i> About</a>
     </div>
 
     <div id="header_menu_user_icon" class="header-menu">

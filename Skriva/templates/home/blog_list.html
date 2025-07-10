@@ -1,0 +1,136 @@
+{% load static compress %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skriva - {{ page_title }}</title>
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/favicon-16x16.png' %}">
+    <link rel="shortcut icon" href="{% static 'assets/favicon.ico' %}">
+    
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/blog_preview.css' %}">
+    {% endcompress %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    {% include 'includes/header.html' %}
+
+    <div class="container">
+        <main>
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>{{ page_title }}</h1>
+                {% if page_subtitle %}
+                <p class="page-subtitle">{{ page_subtitle }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Categories Filter -->
+            <div class="categories-filter">
+                <h3><i class="fas fa-filter"></i> Filter by Category</h3>
+                <div class="category-buttons">
+                    <a href="{% url 'blog_list' %}" class="category-btn {% if not current_category %}active{% endif %}">
+                        <i class="fas fa-th"></i> All Posts
+                    </a>
+                    {% for category in categories %}
+                    <a href="{% url 'blog_by_category' category.slug %}" 
+                       class="category-btn {% if current_category.slug == category.slug %}active{% endif %}">
+                        <i class="fas fa-tag"></i> {{ category.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Blog Posts Grid -->
+            <div class="content-section">
+                {% if posts %}
+                <div class="blog-post-list">
+                    {% for post in posts %}
+                    <div class="blog-post-card">
+                        {% if post.featured_image %}
+                        <div class="blog-post-image">
+                            <a href="{% url 'blog_post_detail' post.slug %}">
+                                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                            </a>
+                        </div>
+                        {% endif %}
+                        <div class="blog-post-content">
+                            <h3 class="blog-post-title">
+                                <a href="{% url 'blog_post_detail' post.slug %}">{{ post.title }}</a>
+                            </h3>
+                            <p class="blog-post-excerpt">
+                                {{ post.excerpt|default:post.content|striptags|truncatechars:150 }}
+                            </p>
+                            <div class="blog-post-meta">
+                                <span><i class="fas fa-user"></i> 
+                                    <a href="{% url 'user_profile' post.author.username %}">{{ post.author.username }}</a>
+                                </span>
+                                <span><i class="fas fa-calendar"></i> {{ post.published_at|default:post.created_at|date:"d.m.Y" }}</span>
+                                <span><i class="fas fa-eye"></i> {{ post.views_count }}</span>
+                                <span><i class="fas fa-heart"></i> {{ post.likes_count }}</span>
+                                {% if post.category %}
+                                <span><i class="fas fa-tag"></i> 
+                                    <a href="{% url 'blog_by_category' post.category.slug %}">{{ post.category.name }}</a>
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if posts.has_other_pages %}
+                <div class="pagination-container">
+                    <div class="pagination">
+                        {% if posts.has_previous %}
+                            <a href="?page=1" class="page-link first">&laquo; First</a>
+                            <a href="?page={{ posts.previous_page_number }}" class="page-link prev">&lsaquo; Previous</a>
+                        {% endif %}
+                        
+                        <span class="page-info">
+                            Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+                        </span>
+                        
+                        {% if posts.has_next %}
+                            <a href="?page={{ posts.next_page_number }}" class="page-link next">Next &rsaquo;</a>
+                            <a href="?page={{ posts.paginator.num_pages }}" class="page-link last">Last &raquo;</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% else %}
+                <div class="no-posts">
+                    <div class="no-posts-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3>No Posts Found</h3>
+                    {% if current_category %}
+                    <p>No posts have been published in the "{{ current_category.name }}" category yet.</p>
+                    <a href="{% url 'blog_list' %}" class="btn btn-primary">View All Posts</a>
+                    {% else %}
+                    <p>No blog posts have been published yet. Be the first to write something!</p>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'blog_editor' %}" class="btn btn-primary">Write Your First Post</a>
+                    {% else %}
+                    <a href="{% url 'account_signup' %}" class="btn btn-primary">Join Skriva</a>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </main>
+
+        {% include 'includes/footer.html' %}
+    </div>
+
+    <script src="{% static 'js/header_menu.js' %}"></script>
+</body>
+</html>

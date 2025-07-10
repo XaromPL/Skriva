@@ -6,11 +6,54 @@
     <title>Skriva - Privacy Policy</title>
     {% load static %}
     {% load i18n %}
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/favicon-16x16.png' %}">
+    <link rel="shortcut icon" href="{% static 'assets/favicon.ico' %}">
+    
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <main>
+
+    {% include 'includes/header.html' %}
+    <div class="rules" style="text-align: center;">
+    <h1 style="color:purple">Privacy Policy</h1>
+
+    <p>Your privacy is important to us. Skriva collects only the data necessary to provide its core functionality.</p>
+
+    <p>When creating an account, we collect your email address and password for the purpose of user authentication.</p>
+
+    <p>Passwords are stored in encrypted form and are not accessible in plain text.</p>
+
+    <p>We do not share any personal data with third parties, unless required by law.</p>
+
+    <p>We do not collect any other personal information, nor do we track user activity beyond what is necessary for the app to function.</p>
+
+    <p>While we take basic steps to protect your data, we cannot guarantee complete security.</p>
+
+    <p>By using this application, you consent to the processing of your data as described above.</p><br><br><br>
+    
+    <h1 style="color: purple;">Terms of Service</h1>
+
+    <p>By using the Skriva application, you agree to the following terms.</p>
+
+    <p>Skriva is provided "as is", with no guarantees of availability, accuracy, or security.</p>
+
+    <p>The owner of the application is not responsible for content published by users or for any damages resulting from the use of the app.</p>
+
+    <p>We do not guarantee uninterrupted service or error-free operation.</p>
+
+    <p>We may remove or block access to any account or content at any time without notice or explanation.</p>
+
+    <p>You are not allowed to publish content that is illegal, offensive, hateful, discriminatory, or harmful in any way.</p>
+
+    <p>We reserve the right to remove any content that violates these rules or is deemed inappropriate.</p>
+
+    <p>Use of the application is at your own risk.</p>
+
+    <p>These terms may be changed at any time without prior notice.</p>
 
     </main>
 
