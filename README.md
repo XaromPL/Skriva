@@ -1,5 +1,5 @@
 # Skriva
-Skriva is an application that allows you to create your own blog and interact with others' blogs. The app enables users to add, edit, delete, like, and discover blogs created by other users.
+Skriva is an application that allows you to create your own blog and interact with others blogs. The app enables users to add, edit, delete, like, and discover blogs created by other users.
 
 # 1. Project Purpose
 The project was created primarily to learn how the Django framework works, as it handles the entire backend of this application. By building such a large project, I gained a lot of new knowledge that will be useful to me in the future.
