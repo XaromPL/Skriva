@@ -23,23 +23,29 @@ Link: https://www.xarom.one/
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 
+**Note:**
+
+This application uses PostgreSQL **only in the production environment**. The development environment uses the default SQLite database.
+
 ## How to Use
-To run this application, you’ll need a basic understanding of Django (if you want to run it on your own computer or server). If you just want to see how it works, visit the live demo.
+To run this application, you’ll need a basic understanding of Django *(if you want to run it on your own computer or server)*. If you just want to see how it works, visit the live demo.
 
-**~**Steps to run the application locally:
+**1.** Steps to run the application locally:
 
-**~**Clone the entire GitHub repository
+**2.** Clone the entire GitHub repository.
 
-**~**Install all dependencies from requirements.txt
+**3.** Install all dependencies from requirements.txt.
 
-**~**Fill the .env file with all the necessary information.
+`pip install -r requirements.txt`
 
-**~**Run migrations:
+**4.** Fill the .env file with all the necessary information.
+
+**5.** Run migrations:
 `python manage.py makemigrations`
 
 `python manage.py migrate`
 
-**~**Start the (local) server:
+**6.** Start the (local) server:
 
 `python manage.py runserver`
 
