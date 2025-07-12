@@ -2,33 +2,33 @@
 [![Static Badge](https://img.shields.io/badge/telegram-blue?style=for-the-badge&logo=telegram&logoColor=white&logoSize=auto)](https://t.me/mrxarom)
 ![Status](https://img.shields.io/badge/Status-Development-informational?style=for-the-badge&logo=github)
 
-<p align="center">
-# Skriva
-</p>
+<h1 align="center">
+  Skriva
+</h1>
 
 Skriva is an application that allows you to create your own blog and interact with others blogs. The app enables users to add, edit, delete, like, and discover blogs created by other users.
 
-<p align="center">
-## Project Purpose
-</p>
+<h2 align="center">
+Project Purpose
+</h2>
 
 The project was created primarily to learn how the Django framework works, as it handles the entire backend of this application. By building such a large project, I gained a lot of new knowledge that will be useful to me in the future.
 
-<p align="center">
-## Features
-</p>
+<h2 align="center">
+Features
+</h2>
 
 Creating posts, Editing posts, Deleting posts, Changing post status, View counter for each post, Ability to like posts, Profile customization (banner/profile picture/bio/date of birth/full name), Login via Discord or GitHub, Viewing posts from other users (on a dedicated page), Viewing other users' profiles (on a dedicated page), Viewing all posts from a specific user
 
-<p align="center">
-## Live Demo
-</p>
+<h2 align="center">
+Live Demo
+</h2>
 
 Link: https://www.xarom.one/
 
-<p align="center">
-## Technologies Used
-</p>
+<h2 align="center">
+Technologies Used
+</h2>
 
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
@@ -40,9 +40,9 @@ Link: https://www.xarom.one/
 
 This application uses PostgreSQL **only in the production environment**. The development environment uses the default SQLite database.
 
-<p align="center">
-## How to Use
-</p>
+<h2 align="center">
+How to Use
+</h2>
 
 To run this application, you’ll need a basic understanding of Django *(if you want to run it on your own computer or server)*. If you just want to see how it works, visit the live demo.
 
@@ -67,21 +67,21 @@ To run this application, you’ll need a basic understanding of Django *(if you 
 
 **WARNING! If you want to deploy this project to a server, you will need to add your domain in all required places in the settings file and replace every instance of yourdomain accordingly.**
 
-<p align="center">
-## App appearance
-</p>
+<h2 align="center">
+App appearance
+</h2>
 
 ![App viev](media/app_preview.gif)
 
-<p align="center">
-## Licence
-</p>
+<h2 align="center">
+Licence
+</h2>
 
 This extension is licensed under the MIT License, which means it is free to use, modify, and distribute with minimal restrictions, as long as the original license and copyright notice are included.
 
-<p align="center">
-## Project Status
-</p>
+<h2 align="center">
+Project Status
+</h2>
 
 *This application will no longer be actively developed. However, bug fixes may still be released occasionally.*
 
