@@ -77,7 +77,7 @@ App appearance
 Licence
 </h2>
 
-This extension is licensed under the MIT License, which means it is free to use, modify, and distribute with minimal restrictions, as long as the original license and copyright notice are included.
+This project is licensed under the MIT License, which means it is free to use, modify, and distribute with minimal restrictions, as long as the original license and copyright notice are included.
 
 <h2 align="center">
 Project Status
