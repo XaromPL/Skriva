@@ -2,7 +2,7 @@ from django import forms
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 from .models import BlogPost, BlogCategory
-from ckeditor.widgets import CKEditorWidget
+from django_ckeditor_5.widgets import CKEditor5Widget
 
 class BlogPostForm(forms.ModelForm):
     title = forms.CharField(
@@ -36,8 +36,8 @@ class BlogPostForm(forms.ModelForm):
     )
     
     content = forms.CharField(
-        widget=CKEditorWidget(config_name='default'),
-        required=True
+        widget=CKEditor5Widget(config_name='extends', attrs={'class': 'django_ckeditor_5'}),
+        required=False
     )
     
     featured_image = forms.ImageField(

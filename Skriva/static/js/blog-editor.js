@@ -80,18 +80,7 @@ class BlogEditor {
             this.slugInput.value = tempSlug;
         }
 
-        fetch(`/blog/ajax/generate-slug/?title=${encodeURIComponent(title)}`)
-            .then(response => {
-                if (!response.ok) throw new Error(`Network response was not ok: ${response.status}`);
-                return response.json();
-            })
-            .then(data => {
-                if (data.slug && this.slugInput) {
-                    this.slugInput.value = data.slug;
-                    this.updateSlugPreview();
-                }
-            })
-            .catch(() => {});
+        // Local slug generation only - no AJAX call needed
     }
 
     updateSlugPreview() {

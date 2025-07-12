@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
-from ckeditor.fields import RichTextField
+from django_ckeditor_5.fields import CKEditor5Field
 
 class BlogCategory(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -33,7 +33,7 @@ class BlogPost(models.Model):
     slug = models.SlugField(max_length=200, unique=True, help_text="URL-friendly version of title")
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     category = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL, null=True, blank=True, related_name='posts')
-    content = RichTextField(help_text="Blog post content with rich text formatting")
+    content = CKEditor5Field('Text', config_name='extends', help_text="Blog post content with rich text formatting")
     excerpt = models.TextField(max_length=300, blank=True, help_text="Short description of the post")
     featured_image = models.ImageField(upload_to='blog_images/', blank=True, null=True, help_text="Main image for the blog post")
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')

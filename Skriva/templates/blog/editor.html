@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skriva - {% if post %}Edit Post{% else %}Add Post{% endif %}</title>
-    {% load static %}
+    {% load static compress %}
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/favicon-16x16.png' %}">
     <link rel="shortcut icon" href="{% static 'assets/favicon.ico' %}">
     
+    {% compress css %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    {% endcompress %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     {{ form.media }}
 </head>
@@ -42,7 +44,7 @@
             {% endfor %}
         {% endif %}
 
-        <form method="post" enctype="multipart/form-data" id="post-form" action="">
+        <form method="post" enctype="multipart/form-data" id="post-form" action="{% if is_edit %}{% url 'edit_blog_post' post.slug %}{% else %}{% url 'blog_editor' %}{% endif %}">
             {% csrf_token %}
             
             <div class="editor-main">
@@ -121,7 +123,7 @@
                         {% endif %}
                         
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">
+                            <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="console.log('Button clicked')">
                                 <i class="fas fa-save"></i> 
                                 {% if is_edit %}Update Post{% else %}Create Post{% endif %}
                             </button>
@@ -177,9 +179,9 @@
             </div>
         </form>
     </div>
-
+    {% compress js %}
     <script src="{% static 'js/blog-editor.js' %}"></script>
     <script src="{% static 'js/header_menu.js' %}"></script>
-
+    {% endcompress %}
 </body>
 </html>

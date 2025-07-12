@@ -136,8 +136,9 @@
 
         {% include 'includes/footer.html' %}
     </div>
-
+    {% compress js %}
     <script src="{% static 'js/header_menu.js' %}"></script>
     <script src="{% static 'js/profile_settings.js' %}"></script>
+    {% endcompress %}
 </body>
 </html>

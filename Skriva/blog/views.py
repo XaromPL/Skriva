@@ -16,6 +16,9 @@ def blog_editor(request, slug=None):
     
     if request.method == 'POST':
         form = BlogPostForm(request.POST, request.FILES, instance=post)
+        print(f"Form is valid: {form.is_valid()}")
+        if not form.is_valid():
+            print(f"Form errors: {form.errors}")
         if form.is_valid():
             blog_post = form.save(commit=False)
             if not post:
@@ -25,6 +28,7 @@ def blog_editor(request, slug=None):
                 blog_post.published_at = timezone.now()
                 
             blog_post.save()
+            print(f"Post saved successfully: {blog_post.title}")
             return redirect('my_blog_posts')
     else:
         form = BlogPostForm(instance=post)

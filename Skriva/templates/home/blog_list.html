@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skriva - {{ page_title }}</title>
     
-    <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/favicon-16x16.png' %}">
@@ -23,7 +22,6 @@
 
     <div class="container">
         <main>
-            <!-- Page Header -->
             <div class="page-header">
                 <h1>{{ page_title }}</h1>
                 {% if page_subtitle %}
@@ -31,7 +29,6 @@
                 {% endif %}
             </div>
 
-            <!-- Categories Filter -->
             <div class="categories-filter">
                 <h3><i class="fas fa-filter"></i> Filter by Category</h3>
                 <div class="category-buttons">
@@ -47,7 +44,6 @@
                 </div>
             </div>
 
-            <!-- Blog Posts Grid -->
             <div class="content-section">
                 {% if posts %}
                 <div class="blog-post-list">
@@ -85,7 +81,6 @@
                     {% endfor %}
                 </div>
 
-                <!-- Pagination -->
                 {% if posts.has_other_pages %}
                 <div class="pagination-container">
                     <div class="pagination">

@@ -11,11 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('dark');
     }
 
-    menuButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menuBars.classList.toggle('active');
-        menuUser.classList.remove('active');
-    });
+    if (menuButton) {
+        menuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuBars.classList.toggle('active');
+            menuUser.classList.remove('active');
+        });
+    }
 
     userIcon.addEventListener('click', (e) => {
         e.stopPropagation();

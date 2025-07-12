@@ -1,0 +1,85 @@
+{% load static compress %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Skriva</title>
+  <link rel="icon" href="{% static 'assets/favicon.ico' %}" />
+  {% compress css %}
+  <link rel="stylesheet" href="{% static 'css/about.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  {% endcompress %}
+</head>
+<body>
+  <main class="about-container">
+    <section class="intro">
+      <h1 class="typing-animation">About Skriva</h1>
+      <p><strong>What is Skriva?</strong> Skriva is a blogging app that allows you to create and manage your own personal blog. It supports adding, deleting, and editing posts, changing their visibility status, adding likes, tracking views, customizing your profile, exploring other users’ profiles and blogs, using it on mobile devices, and much more — try it out yourself!</p>
+      <p>Skriva was created by Gabriel Dudek (MrXarom) and is licensed under the MIT License. The full source code is available on GitHub. This project was developed for the Summer of Making event sponsored by GitHub and Hack Club.</p>
+    </section>
+
+    <section class="technologies">
+      <h2>Technologies used</h2>
+      <div class="tech-grid">
+        <a href="https://django-compressor.readthedocs.io/" target="_blank" class="tech-card" rel="noopener">
+          <h3>Django-Compressor</h3>
+          <p>Combines JS and CSS files into one to reduce HTTP requests.</p>
+        </a>
+        <a href="https://github.com/mbi/django-simple-captcha" target="_blank" class="tech-card" rel="noopener">
+          <h3>django-simple-captcha</h3>
+          <p>Free CAPTCHA for login forms without API keys.</p>
+        </a>
+        <a href="https://django-allauth.readthedocs.io/en/latest/" target="_blank" class="tech-card" rel="noopener">
+          <h3>django-allauth</h3>
+          <p>Secure login and registration with social logins support.</p>
+        </a>
+        <a href="https://django-ckeditor.readthedocs.io/en/latest/" target="_blank" class="tech-card" rel="noopener">
+          <h3>django-ckeditor</h3>
+          <p>Rich text editor for blog content with styling options.</p>
+        </a>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" class="tech-card" rel="noopener">
+          <h3>HTML / CSS / JS</h3>
+          <p>Core frontend technologies for structure, style, and interactivity.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="contact-section">
+      <h2>Contact Me</h2>
+      <div class="contact-cards">
+        <a href="mailto:xarompl@gmail.com" class="contact-card" target="_blank" rel="noopener">
+          <h3>📧 Email</h3>
+          <p>xarompl@gmail.com</p>
+        </a>
+        <a href="https://discord.com/users/mrxarom" class="contact-card" target="_blank" rel="noopener">
+          <h3>💬 Discord</h3>
+          <p>MrXarom</p>
+        </a>
+        <a href="https://t.me/MrXarom" class="contact-card" target="_blank" rel="noopener">
+          <h3>📱 Telegram</h3>
+          <p>@MrXarom</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="github">
+      <h2>Source Code</h2>
+      <p>The entire codebase is available on GitHub:</p>
+      <a class="github-link" href="https://github.com/XaromPL/Skriva" target="_blank" rel="noopener">
+        🔗 https://github.com/XaromPL/Skriva
+      </a>
+      <div class="star-box">
+        <p>If you like this project, please consider giving it a star on GitHub. It helps a lot!</p>
+        <a class="star-button" href="https://github.com/XaromPL/Skriva" target="_blank" rel="noopener">⭐ Star on GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  {% include 'includes/footer.html' %}
+
+  {% compress js %}
+  <script src="{% static 'js/header_menu.js' %}"></script>
+  {% endcompress %}
+</body>
+</html>
