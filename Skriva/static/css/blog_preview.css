@@ -446,6 +446,8 @@
     gap: 10px;
     justify-content: center;
     flex-wrap: wrap;
+    position: relative;
+    z-index: 3;
 }
 
 .btn {
@@ -461,6 +463,8 @@
     border: none;
     cursor: pointer;
     white-space: nowrap;
+    position: relative;
+    z-index: 3;
 }
 
 .btn-primary {
