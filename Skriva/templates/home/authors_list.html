@@ -71,12 +71,12 @@
                             </div>
                             
                             <div class="author-actions">
-                                <a href="{% url 'user_profile' author.username %}" class="btn btn-primary">
-                                    <i class="fas fa-user"></i> View Profile
-                                </a>
-                                <a href="{% url 'user_blog_posts' author.username %}" class="btn btn-secondary">
-                                    <i class="fas fa-book"></i> View Posts
-                                </a>
+                                    <a href="/accounts/user/{{ author.username }}/" class="btn btn-primary">
+                                        <i class="fas fa-user"></i> View Profile
+                                    </a>
+                                    <a href="/blog/user/{{ author.username }}/posts/" class="btn btn-secondary">
+                                        <i class="fas fa-book"></i> View Posts
+                                    </a>
                             </div>
                         </div>
                     </div>
