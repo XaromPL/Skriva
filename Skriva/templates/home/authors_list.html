@@ -35,13 +35,15 @@
                     {% for author in authors %}
                     <div class="author-card">
                         <div class="author-avatar">
-                            {% if author.profile.profile_image %}
-                            <img src="{{ author.profile.profile_image.url }}" alt="{{ author.username }}">
-                            {% else %}
-                            <div class="author-no-image">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            {% endif %}
+                            <a href="{% url 'user_profile' author.username %}">
+                                {% if author.profile.profile_image %}
+                                <img src="{{ author.profile.profile_image.url }}" alt="{{ author.username }}">
+                                {% else %}
+                                <div class="author-no-image">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                {% endif %}
+                            </a>
                         </div>
                         
                         <div class="author-info">
