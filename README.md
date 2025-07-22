@@ -85,4 +85,4 @@ Project Status
 
 *This application will no longer be actively developed. However, bug fixes may still be released occasionally.*
 
-**Application created by Gabriel Dudek (XaromPL)**
+**SkriVa created by Gabriel Dudek (XaromPL)**
